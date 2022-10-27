@@ -2,14 +2,13 @@ import { useEffect } from "react";
 
 import Header from "../../components/Header/Index";
 import ModalLogin from "../../components/ModalLogin/Index";
-import ModalNewRoom from "../../components/ModalNewRoom/Index";
 import useUser from "../../hooks/useUser";
 
 import "./styles.css";
 
-export default function Home() {
+export default function Room() {
   const { toggleModalRoom, toggleModalLogin } = useUser();
-  const login = true;
+  const login = false;
 
   function click() {
     if (login) {
@@ -24,11 +23,8 @@ export default function Home() {
     <>
       <Header />
       <ModalLogin />
-      <ModalNewRoom />
       <article className="ContainerHome">
-        <section className="DescriptionSection">
-          Crie uma sala e assista com seus amigos um dos nossos vídeos.
-        </section>
+        <section className="DescriptionSection">Essa é a sala X</section>
         <section className="LoginSection">
           <p className="LoginSectionText">
             Já está logado? então vamos lá e crie sua sala para poder

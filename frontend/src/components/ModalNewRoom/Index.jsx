@@ -1,12 +1,17 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import useUser from "../../hooks/useUser";
 
 import "./styles.css";
 
 export default function Modal() {
   const { openModalRoom, toggleModalRoom } = useUser();
+  const navigate = useNavigate();
+
   function LoginOnClick() {
     toggleModalRoom();
+    navigate("/room");
   }
   useEffect(() => {}, []);
   return (
