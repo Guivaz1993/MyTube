@@ -64,6 +64,7 @@
 }
 
 .OpenModal {
+  z-index: 99;
   opacity: 1;
   visibility: visible;
   animation: Modal-in 1s;

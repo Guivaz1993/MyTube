@@ -29,7 +29,6 @@ export default function Modal() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(form);
     toggleModalLogin();
     navigate("/");
   }
