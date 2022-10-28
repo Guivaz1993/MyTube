@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { post } from "../../services/functions";
 import useUser from "../../hooks/useUser";
 
 import "./styles.css";
+import { setItem } from "../../utils/storage";
 
 export default function Modal() {
   const { openModalLogin, toggleModalLogin } = useUser();
   const [form, setForm] = useState({
-    user: "",
+    username: "",
     password: "",
   });
-  const navigate = useNavigate();
 
   function handleFormValue(e) {
     if (e.target.password !== "password" && e.nativeEvent.data === " ") {
@@ -21,16 +22,34 @@ export default function Modal() {
 
   function LoginOnClick() {
     setForm({
-      user: "",
+      username: "",
       password: "",
     });
     toggleModalLogin();
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    toggleModalLogin();
-    navigate("/");
+    try {
+      const { data, status } = await post("/signin", form);
+      console.log(data, status);
+      if (status !== 200) {
+        return toast.error(data.message);
+      }
+
+      setItem("token", data.token);
+
+      toast.success("Olá, assista o seu vídeo com a gente");
+      setForm({
+        user: "",
+        password: "",
+      });
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      // eslint-disable-next-line no-unsafe-finally
+      return toggleModalLogin();
+    }
   }
   useEffect(() => {}, []);
   return (
@@ -46,8 +65,8 @@ export default function Modal() {
             <span>Usuário</span>
             <input
               id="user"
-              value={form.user}
-              name="user"
+              value={form.username}
+              name="username"
               type="text"
               onChange={handleFormValue}
             />
@@ -62,10 +81,12 @@ export default function Modal() {
               onChange={handleFormValue}
             />
           </label>
-          <button type="button" onClick={() => LoginOnClick()}>
-            Fechar
-          </button>
-          <button type="submit">Login</button>
+          <div className="BtnLoginContainer">
+            <button type="button" onClick={() => LoginOnClick()}>
+              Fechar
+            </button>
+            <button type="submit">Login</button>
+          </div>
         </form>
       </div>
     </>

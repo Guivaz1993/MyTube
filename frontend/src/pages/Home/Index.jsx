@@ -5,21 +5,23 @@ import ModalLogin from "../../components/ModalLogin/Index";
 import ModalNewRoom from "../../components/ModalNewRoom/Index";
 import useUser from "../../hooks/useUser";
 
+import { getItem } from "../../utils/storage";
+
 import "./styles.css";
 
 export default function Home() {
-  const { toggleModalRoom, toggleModalLogin } = useUser();
-  const login = true;
+  const { toggleModalRoom, toggleModalLogin, openModalLogin } = useUser();
+  const token = getItem("token");
 
   function click() {
-    if (login) {
+    if (token) {
       toggleModalRoom();
     } else {
       toggleModalLogin();
     }
   }
 
-  useEffect(() => {}, []);
+  useEffect(() => {}, [openModalLogin]);
   return (
     <>
       <Header />
@@ -34,7 +36,7 @@ export default function Home() {
             Já está logado? então vamos lá e crie sua sala para poder
             compartilhar com os amigos
           </p>
-          {login ? (
+          {token ? (
             <button type="button" onClick={() => click()}>
               Clique aqui
             </button>
