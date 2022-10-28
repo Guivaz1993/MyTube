@@ -7,15 +7,13 @@ const createRoom = async (req, res) => {
   try {
     const newRoom = await modelRooms.createRoom(name, user_id, video_id);
 
-    if (!newRoom) {
+    if (newRoom.length === 0) {
       return res
         .status(400)
         .json({ message: "Não foi possível criar a sua sala." });
     }
 
-    return res.status(201).json({
-      message: "Sala criada com sucesso.",
-    });
+    return res.status(201).json(newRoom[0]);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
